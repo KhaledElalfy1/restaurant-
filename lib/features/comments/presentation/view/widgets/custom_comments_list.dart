@@ -1,3 +1,4 @@
+import 'package:aast_restuarant/features/comments/presentation/show_comments_cubit/show_comments_cubit.dart';
 import 'package:aast_restuarant/features/comments/presentation/view/widgets/custom_comment_card.dart';
 import 'package:flutter/material.dart';
 
@@ -9,10 +10,10 @@ class CustomCommentsList extends StatelessWidget {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 5,
+      itemCount: ShowCommentsCubit.get(context).studentComments.length,
       itemBuilder: (context, index) => CustomCommentCard(
-        author: 'author',
-        comment: 'comment',
+        author: ShowCommentsCubit.get(context).studentComments[index].studentName,
+        comment: ShowCommentsCubit.get(context).studentComments[index].comment,
         delete: () {},
       ),
       separatorBuilder: (context, index) => const SizedBox(

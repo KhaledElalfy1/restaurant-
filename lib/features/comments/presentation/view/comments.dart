@@ -1,5 +1,8 @@
+import 'package:aast_restuarant/features/comments/presentation/show_comments_cubit/show_comments_cubit.dart';
+import 'package:aast_restuarant/features/comments/presentation/show_comments_cubit/show_comments_state.dart';
 import 'package:aast_restuarant/features/comments/presentation/view/widgets/custom_comments_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Comments extends StatefulWidget {
   const Comments({super.key});
@@ -95,9 +98,24 @@ class _Comments extends State<Comments> {
                 child: const Text('Submit'),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 350.0),
-              child: CustomCommentsList(),
+            Padding(
+              padding: const EdgeInsets.only(top: 350.0),
+              child: BlocBuilder<ShowCommentsCubit, ShowCommentsState>(
+                builder: (context, state) {
+                  if (state is ShowCommentsSuccess) {
+                    return const CustomCommentsList();
+                  }
+                  if (state is ShowCommentsFailure) {
+                    return Center(
+                      child: Text(state.eMessage),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 125, top: 165),

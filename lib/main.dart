@@ -1,3 +1,4 @@
+import 'package:aast_restuarant/features/comments/presentation/show_comments_cubit/show_comments_cubit.dart';
 import 'package:aast_restuarant/features/feed_back/presentation/controller/feed_back_cubit/feed_back_cubit.dart';
 import 'package:aast_restuarant/features/login/presentation/controller/login_cubit/login_cubit.dart';
 import 'package:aast_restuarant/features/login/presentation/view/login_view.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => FeedBackCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ShowCommentsCubit()..getStudentComments(),
         ),
       ],
       child: const MaterialApp(
