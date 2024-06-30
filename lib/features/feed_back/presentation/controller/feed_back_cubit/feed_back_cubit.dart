@@ -27,6 +27,7 @@ class FeedBackCubit extends Cubit<FeedBackState> {
       FireStoreKeys.rating: rating,
       FireStoreKeys.comments: commentController.text,
       FireStoreKeys.studentName: FirebaseAuth.instance.currentUser!.displayName,
+      FireStoreKeys.createdAt:DateTime.now(),
     }).then((value) {
       emit(SendFeedBackSuccess());
     }).catchError((e) {
