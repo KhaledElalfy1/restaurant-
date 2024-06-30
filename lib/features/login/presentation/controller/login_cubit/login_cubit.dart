@@ -24,17 +24,17 @@ class LoginCubit extends Cubit<LoginState> {
         password: '12345678',
       );
       emit(LoginSuccess());
-      print('Success================================');
+      debugPrint('Success================================');
       await FirebaseAuth.instance.currentUser!
           .updateDisplayName("Abdelbaky Mahmoud");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        debugPrint('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        debugPrint('The account already exists for that email.');
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -53,7 +53,7 @@ class LoginCubit extends Cubit<LoginState> {
       } else if (e.code == 'wrong-password') {
         emit(LoginFailure(eMessage: 'Wrong password provided for that user.'));
         debugPrint('Wrong password provided for that user.');
-      }else {
+      } else {
         emit(LoginFailure(eMessage: 'An error occurred: ${e.message}'));
         debugPrint('An error occurred: ${e.message}');
       }

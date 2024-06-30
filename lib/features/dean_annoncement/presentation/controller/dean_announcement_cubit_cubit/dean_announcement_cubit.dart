@@ -63,4 +63,20 @@ class DeanAnnouncementCubit extends Cubit<DeanAnnouncementState> {
       );
     }
   }
+
+  void deleteAnnouncement({required String docId}) {
+    emit(DeanAnnouncementLoading());
+    try {
+      CollectionReference announcement = FirebaseFirestore.instance
+          .collection(FireStoreKeys.announcementCollection);
+      announcement.doc(docId).delete();
+      emit(DeleteDeanAnnouncementSuccess());
+    } on Exception catch (e) {
+      emit(
+        DeleteDeanAnnouncementFailure(
+          eMessage: e.toString(),
+        ),
+      );
+    }
+  }
 }
