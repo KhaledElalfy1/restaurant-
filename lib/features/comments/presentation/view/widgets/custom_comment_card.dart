@@ -34,11 +34,7 @@ class CustomCommentCard extends StatelessWidget {
                 },
                 builder: (context, state) {
                   return IconButton(
-                    icon: state is DeleteCommentLoading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : const Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                     onPressed: () {
                       DeleteCommentCubit.get(context)
                           .deleteComment(docID: comment.docId);
