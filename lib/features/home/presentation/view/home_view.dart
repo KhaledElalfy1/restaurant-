@@ -2,7 +2,6 @@ import 'package:aast_restuarant/features/annoncement/presentation/view/annonceme
 import 'package:aast_restuarant/features/choose_meal/presentation/view/choose_meal_view.dart';
 import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/dean_announcement_cubit_cubit/dean_announcement_cubit.dart';
 import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/dean_announcement_cubit_cubit/dean_announcement_state.dart';
-import 'package:aast_restuarant/features/dean_annoncement/presentation/view/dean_annoncement.dart';
 import 'package:aast_restuarant/features/dean_annoncement/presentation/view/widgets/announcement_list.dart';
 import 'package:aast_restuarant/features/feed_back/presentation/view/feed_back.dart';
 import 'package:aast_restuarant/features/identity/presentation/view/identity.dart';
