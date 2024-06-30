@@ -1,6 +1,6 @@
+import 'package:aast_restuarant/features/admin_announcement/presentation/view/admin_announcement.dart';
 import 'package:aast_restuarant/features/appointment/presentation/view/appointment.dart';
 import 'package:aast_restuarant/features/comments/presentation/view/comments.dart';
-import 'package:aast_restuarant/features/dean_annoncement/presentation/view/dean_annoncement.dart';
 import 'package:aast_restuarant/features/meals/presentation/view/meals.dart';
 import 'package:flutter/material.dart';
 
@@ -251,7 +251,7 @@ class _AdminState extends State<Admin> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const DeanAnnouncement()),
+                      builder: (context) => const AdminAnnouncement()),
                 );
               },
               child: Container(

@@ -4,10 +4,11 @@ import 'package:aast_restuarant/features/dean_annoncement/presentation/view/widg
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-class DeanAnnouncement extends StatelessWidget {
+class AdminAnnouncement extends StatelessWidget {
   //عميد شؤون الطلاب
-  const DeanAnnouncement({super.key});
+  const AdminAnnouncement({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +88,7 @@ class DeanAnnouncement extends StatelessWidget {
                   return TextButton(
                     onPressed: () {
                       DeanAnnouncementCubit.get(context)
-                          .makeAnnouncement(author: 'Dean');
+                          .makeAnnouncement(author: 'Admin');
                       DeanAnnouncementCubit.get(context)
                           .announcementController
                           .clear();
