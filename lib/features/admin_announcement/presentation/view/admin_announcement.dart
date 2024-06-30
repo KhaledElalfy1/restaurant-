@@ -7,7 +7,6 @@ import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class AdminAnnouncement extends StatelessWidget {
-  //عميد شؤون الطلاب
   const AdminAnnouncement({super.key});
   @override
   Widget build(BuildContext context) {
