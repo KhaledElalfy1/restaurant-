@@ -1,7 +1,6 @@
-
-
 import 'package:aast_restuarant/keys/fire_store_keys.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +26,7 @@ class FeedBackCubit extends Cubit<FeedBackState> {
     comments.add({
       FireStoreKeys.rating: rating,
       FireStoreKeys.comments: commentController.text,
+      FireStoreKeys.studentName: FirebaseAuth.instance.currentUser!.displayName,
     }).then((value) {
       emit(SendFeedBackSuccess());
     }).catchError((e) {
