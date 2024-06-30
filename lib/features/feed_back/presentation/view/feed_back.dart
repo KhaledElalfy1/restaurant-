@@ -1,5 +1,9 @@
 import 'package:aast_restuarant/features/custom_star_rating/presentation/view/custom_star_rating.dart';
+import 'package:aast_restuarant/features/feed_back/presentation/controller/feed_back_cubit/feed_back_cubit.dart';
+import 'package:aast_restuarant/features/feed_back/presentation/controller/feed_back_cubit/feed_back_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 
 class FeedbackScreen extends StatelessWidget {
   const FeedbackScreen({super.key});
@@ -43,10 +47,11 @@ class FeedbackScreen extends StatelessWidget {
                   top: 230,
                   bottom: 450), // Adjust the padding as needed
               child: CustomStarRating(
-                initialRating: 3.0,
+                initialRating: FeedBackCubit.get(context).rating.toDouble(),
                 onRatingChanged: (rating) {
-                  // Handle the rating update here
-                  print('User rated: $rating');
+                  FeedBackCubit.get(context).rating = rating.toInt();
+                  debugPrint(
+                      'User rated: ${FeedBackCubit.get(context).rating}');
                 },
               ),
             ),
@@ -56,6 +61,7 @@ class FeedbackScreen extends StatelessWidget {
                 const EdgeInsets.only(left: 10, right: 4, top: 350, bottom: 2),
             child: SingleChildScrollView(
               child: TextField(
+                controller: FeedBackCubit.get(context).commentController,
                 maxLines: null, // Allow unlimited lines
                 decoration: InputDecoration(
                   hintText: 'Type your comment...',
@@ -63,46 +69,53 @@ class FeedbackScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                onChanged: (value) {
-                  // Handle the text input
-                },
               ),
             ),
           ),
           Padding(
             padding:
-                const EdgeInsets.only(left: 165, right: 4, top: 450, bottom: 2),
-            child: TextButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Success'),
-                      content: const Text('Comment submitted successfully!'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text('OK'),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-                // Handle comment submission
-                // Add the comment to your database or data source
-                // Show a "Done" message to the user
-                print('Comment submitted!');
-              },
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.all(15),
-                foregroundColor: const Color(0xFFEEB340),
-                backgroundColor:
-                    Colors.indigo.shade900, // Set the button background color
+                const EdgeInsets.only(left: 100, right: 4, top: 450, bottom: 2),
+            child: SizedBox(
+              width: 250,
+              height: 60,
+              child: BlocConsumer<FeedBackCubit, FeedBackState>(
+                listener: (context, state) {
+                  if (state is SendFeedBackSuccess) {
+                    QuickAlert.show(
+                        context: context, type: QuickAlertType.success);
+                  } else if (state is SendFeedBackFailure) {
+                    QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.error,
+                        text: state.eMessage);
+                    print(state.eMessage);
+                  }
+                },
+                builder: (context, state) {
+                  return TextButton(
+                    onPressed: () {
+                      FeedBackCubit.get(context).addComment();
+                    },
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(15),
+                      foregroundColor: const Color(0xFFEEB340),
+                      backgroundColor: Colors
+                          .indigo.shade900, // Set the button background color
+                    ),
+                    child: state is SendFeedBackLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : const Text(
+                            'Submit',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                  );
+                },
               ),
-              child: const Text('Submit'),
             ),
           ),
         ],
