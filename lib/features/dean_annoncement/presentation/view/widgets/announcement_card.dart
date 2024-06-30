@@ -3,10 +3,13 @@ import 'package:aast_restuarant/features/dean_annoncement/presentation/controlle
 import 'package:aast_restuarant/features/feed_back/model/comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
 
 class AnnouncementCard extends StatelessWidget {
-  const AnnouncementCard({super.key, required this.announcement});
+  const AnnouncementCard(
+      {super.key, required this.announcement, required this.enableDelete});
   final CommentModel announcement;
+  final bool enableDelete;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -18,15 +21,33 @@ class AnnouncementCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              BlocConsumer<DeanAnnouncementCubit, DeanAnnouncementState>(
-                listener: (context, state) {},
-                builder: (context, state) {
-                  return IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {},
-                  );
-                },
-              ),
+              enableDelete
+                  ? BlocConsumer<DeanAnnouncementCubit, DeanAnnouncementState>(
+                      listener: (context, state) {
+                        if (state is DeleteDeanAnnouncementSuccess) {
+                          DeanAnnouncementCubit.get(context).getAnnouncement();
+                        } else if (state is DeleteDeanAnnouncementFailure) {
+                          QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.error,
+                              text: state.eMessage);
+                        }
+                      },
+                      builder: (context, state) {
+                        return IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            DeanAnnouncementCubit.get(context)
+                                .deleteAnnouncement(docId: announcement.docId);
+                          },
+                        );
+                      },
+                    )
+                  : const Icon(
+                      Icons.access_time_sharp,
+                      size: 40,
+                      color: Colors.transparent,
+                    ),
             ],
           ),
           ListTile(

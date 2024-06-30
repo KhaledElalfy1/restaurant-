@@ -3,15 +3,15 @@ import 'package:aast_restuarant/features/dean_annoncement/presentation/view/widg
 import 'package:flutter/material.dart';
 
 class AnnouncementList extends StatelessWidget {
-  const AnnouncementList({super.key});
-
+  const AnnouncementList({super.key,  this.enableDelete=true});
+  final bool enableDelete;
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: DeanAnnouncementCubit.get(context).deanAnnouncement.length,
-      itemBuilder: (context, index) => AnnouncementCard(
+      itemBuilder: (context, index) => AnnouncementCard(enableDelete: enableDelete,
           announcement:
               DeanAnnouncementCubit.get(context).deanAnnouncement[index]),
       separatorBuilder: (context, index) => const SizedBox(

@@ -13,9 +13,21 @@ final class DeanAnnouncementFailure extends DeanAnnouncementState {
 }
 
 final class GetDeanAnnouncementLoading extends DeanAnnouncementState {}
+
 final class GetDeanAnnouncementSuccess extends DeanAnnouncementState {}
+
 final class GetDeanAnnouncementFailure extends DeanAnnouncementState {
   final String eMessage;
 
   GetDeanAnnouncementFailure({required this.eMessage});
+}
+
+final class DeleteDeanAnnouncementLoading extends DeanAnnouncementState {}
+
+final class DeleteDeanAnnouncementSuccess extends DeanAnnouncementState {}
+
+final class DeleteDeanAnnouncementFailure extends DeanAnnouncementState {
+  final String eMessage;
+
+  DeleteDeanAnnouncementFailure({required this.eMessage});
 }
