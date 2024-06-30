@@ -1,4 +1,9 @@
+import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/cubit/dean_announcement_cubit.dart';
+import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/cubit/dean_announcement_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class DeanAnnouncement extends StatelessWidget {
   //عميد شؤون الطلاب
@@ -36,7 +41,6 @@ class DeanAnnouncement extends StatelessWidget {
                 ],
               ),
             ),
-
             const Padding(
               padding: EdgeInsets.only(left: 75, right: 4, top: 160, bottom: 2),
               child: Text(
@@ -50,12 +54,13 @@ class DeanAnnouncement extends StatelessWidget {
                 ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.only(
                   left: 15, right: 4, top: 240, bottom: 2),
               child: SingleChildScrollView(
                 child: TextField(
+                  controller:
+                      DeanAnnouncementCubit.get(context).announcementController,
                   maxLines: null, // Allow unlimited lines
                   decoration: InputDecoration(
                     hintText: 'Type your new announcement  ... ',
@@ -63,525 +68,40 @@ class DeanAnnouncement extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onChanged: (value) {
-                    // Handle the text input
-                  },
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(
                   left: 330, right: 4, top: 250, bottom: 2),
-              child: TextButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Success'),
-                        content: const Text('Comment submitted successfully!'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop(); // Close the dialog
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                  // Handle comment submission
-                  // Add the comment to your database or data source
-                  // Show a "Done" message to the user
-                  print('Comment submitted!');
+              child: BlocConsumer<DeanAnnouncementCubit, DeanAnnouncementState>(
+                listener: (context, state) {
+                  if (state is DeanAnnouncementFailure) {
+                    QuickAlert.show(
+                        context: context,
+                        type: QuickAlertType.error,
+                        text: state.eMessage);
+                  }
                 },
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor:
-                      Colors.blue, // Set the button background color
-                ),
-                child: const Text('Submit'),
+                builder: (context, state) {
+                  return TextButton(
+                    onPressed: () {
+                      DeanAnnouncementCubit.get(context).makeAnnouncement();
+                    },
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor:
+                          Colors.blue, // Set the button background color
+                    ),
+                    child: state is DeanAnnouncementLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : const Text('Submit'),
+                  );
+                },
               ),
             ),
-            Card(
-              elevation: 4.0,
-              margin: const EdgeInsets.only(
-                  left: 10, right: 14, top: 350, bottom: 200),
-              color: Colors.blue[50],
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          // Handle edit action here
-                          // You can navigate to an edit screen or show a dialog.
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Handle delete action here
-                          // You can show a confirmation dialog before deleting.
-                        },
-                      ),
-                    ],
-                  ),
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(bottom: 70),
-                    leading: Transform.translate(
-                      offset: const Offset(5, -50),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage('images/Announcer.png'),
-                        backgroundColor: Colors.white,
-                        radius: 30.0,
-                      ),
-                    ),
-                    title: Transform.translate(
-                      offset: const Offset(-6, -40),
-                      child: const Text(
-                        'Announcer name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Transform.translate(
-                          offset: const Offset(-5, -30),
-                          child: Text('Date: ${DateTime.now().toString()}'),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Transform.translate(
-                          offset: const Offset(-7, -0),
-                          child: const Text(
-                            'This is the announcement content.',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ), // Assuming you have a list of old comments
-            Card(
-              elevation: 4.0,
-              margin: const EdgeInsets.only(
-                  left: 10, right: 14, top: 580, bottom: 200),
-              color: Colors.blue[50],
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          // Handle edit action here
-                          // You can navigate to an edit screen or show a dialog.
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Handle delete action here
-                          // You can show a confirmation dialog before deleting.
-                        },
-                      ),
-                    ],
-                  ),
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(bottom: 70),
-                    leading: Transform.translate(
-                      offset: const Offset(5, -50),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage('images/Announcer.png'),
-                        backgroundColor: Colors.white,
-                        radius: 30.0,
-                      ),
-                    ),
-                    title: Transform.translate(
-                      offset: const Offset(-6, -40),
-                      child: const Text(
-                        'Announcer name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Transform.translate(
-                          offset: const Offset(-5, -30),
-                          child: Text('Date: ${DateTime.now().toString()}'),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Transform.translate(
-                          offset: const Offset(-7, -0),
-                          child: const Text(
-                            'This is the announcement content.',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Card(
-              elevation: 4.0,
-              margin: const EdgeInsets.only(
-                  left: 10, right: 14, top: 1730, bottom: 200),
-              color: Colors.blue[50],
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          // Handle edit action here
-                          // You can navigate to an edit screen or show a dialog.
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Handle delete action here
-                          // You can show a confirmation dialog before deleting.
-                        },
-                      ),
-                    ],
-                  ),
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(bottom: 70),
-                    leading: Transform.translate(
-                      offset: const Offset(5, -50),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage('images/Announcer.png'),
-                        backgroundColor: Colors.white,
-                        radius: 30.0,
-                      ),
-                    ),
-                    title: Transform.translate(
-                      offset: const Offset(-6, -40),
-                      child: const Text(
-                        'Announcer name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Transform.translate(
-                          offset: const Offset(-5, -30),
-                          child: Text('Date: ${DateTime.now().toString()}'),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Transform.translate(
-                          offset: const Offset(-7, -0),
-                          child: const Text(
-                            'This is the announcement content.',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Card(
-              elevation: 4.0,
-              margin: const EdgeInsets.only(
-                  left: 10, right: 14, top: 810, bottom: 200),
-              color: Colors.blue[50],
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          // Handle edit action here
-                          // You can navigate to an edit screen or show a dialog.
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Handle delete action here
-                          // You can show a confirmation dialog before deleting.
-                        },
-                      ),
-                    ],
-                  ),
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(bottom: 70),
-                    leading: Transform.translate(
-                      offset: const Offset(5, -50),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage('images/Announcer.png'),
-                        backgroundColor: Colors.white,
-                        radius: 30.0,
-                      ),
-                    ),
-                    title: Transform.translate(
-                      offset: const Offset(-6, -40),
-                      child: const Text(
-                        'Announcer name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Transform.translate(
-                          offset: const Offset(-5, -30),
-                          child: Text('Date: ${DateTime.now().toString()}'),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Transform.translate(
-                          offset: const Offset(-7, -0),
-                          child: const Text(
-                            'This is the announcement content.',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Card(
-              elevation: 4.0,
-              margin: const EdgeInsets.only(
-                  left: 10, right: 14, top: 1040, bottom: 200),
-              color: Colors.blue[50],
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          // Handle edit action here
-                          // You can navigate to an edit screen or show a dialog.
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Handle delete action here
-                          // You can show a confirmation dialog before deleting.
-                        },
-                      ),
-                    ],
-                  ),
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(bottom: 70),
-                    leading: Transform.translate(
-                      offset: const Offset(5, -50),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage('images/Announcer.png'),
-                        backgroundColor: Colors.white,
-                        radius: 30.0,
-                      ),
-                    ),
-                    title: Transform.translate(
-                      offset: const Offset(-6, -40),
-                      child: const Text(
-                        'Announcer name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Transform.translate(
-                          offset: const Offset(-5, -30),
-                          child: Text('Date: ${DateTime.now().toString()}'),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Transform.translate(
-                          offset: const Offset(-7, -0),
-                          child: const Text(
-                            'This is the announcement content.',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Card(
-              elevation: 4.0,
-              margin: const EdgeInsets.only(
-                  left: 10, right: 14, top: 1270, bottom: 200),
-              color: Colors.blue[50],
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          // Handle edit action here
-                          // You can navigate to an edit screen or show a dialog.
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Handle delete action here
-                          // You can show a confirmation dialog before deleting.
-                        },
-                      ),
-                    ],
-                  ),
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(bottom: 70),
-                    leading: Transform.translate(
-                      offset: const Offset(5, -50),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage('images/Announcer.png'),
-                        backgroundColor: Colors.white,
-                        radius: 30.0,
-                      ),
-                    ),
-                    title: Transform.translate(
-                      offset: const Offset(-6, -40),
-                      child: const Text(
-                        'Announcer name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Transform.translate(
-                          offset: const Offset(-5, -30),
-                          child: Text('Date: ${DateTime.now().toString()}'),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Transform.translate(
-                          offset: const Offset(-7, -0),
-                          child: const Text(
-                            'This is the announcement content.',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            Card(
-              elevation: 4.0,
-              margin: const EdgeInsets.only(
-                  left: 10, right: 14, top: 1500, bottom: 200),
-              color: Colors.blue[50],
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          // Handle edit action here
-                          // You can navigate to an edit screen or show a dialog.
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          // Handle delete action here
-                          // You can show a confirmation dialog before deleting.
-                        },
-                      ),
-                    ],
-                  ),
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(bottom: 70),
-                    leading: Transform.translate(
-                      offset: const Offset(5, -50),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage('images/Announcer.png'),
-                        backgroundColor: Colors.white,
-                        radius: 30.0,
-                      ),
-                    ),
-                    title: Transform.translate(
-                      offset: const Offset(-6, -40),
-                      child: const Text(
-                        'Announcer name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Transform.translate(
-                          offset: const Offset(-5, -30),
-                          child: Text('Date: ${DateTime.now().toString()}'),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Transform.translate(
-                          offset: const Offset(-7, -0),
-                          child: const Text(
-                            'This is the announcement content.',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
             Container(
               margin: const EdgeInsets.only(
                   left: 320,

@@ -1,6 +1,7 @@
 class FireStoreKeys {
   /// collections
   static const String commentsCollection = 'commentsCollection';
+  static const String announcementCollection = 'announcementCollection';
 
   ///// keys
   static const String rating = 'rating';
