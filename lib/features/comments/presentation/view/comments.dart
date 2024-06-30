@@ -46,60 +46,7 @@ class _Comments extends State<Comments> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 15, right: 4, top: 240, bottom: 2),
-              child: SingleChildScrollView(
-                child: TextField(
-                  maxLines: null, // Allow unlimited lines
-                  decoration: InputDecoration(
-                    hintText: 'Type your new comment ... ',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                  onChanged: (value) {
-                    // Handle the text input
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 330, right: 4, top: 250, bottom: 2),
-              child: TextButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Success'),
-                        content: const Text('Comment submitted successfully!'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop(); // Close the dialog
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                  // Handle comment submission
-                  // Add the comment to your database or data source
-                  // Show a "Done" message to the user
-                  print('Comment submitted!');
-                },
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor:
-                      Colors.blue, // Set the button background color
-                ),
-                child: const Text('Submit'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 350.0),
+              padding: const EdgeInsets.only(top: 300.0),
               child: BlocBuilder<ShowCommentsCubit, ShowCommentsState>(
                 builder: (context, state) {
                   if (state is ShowCommentsSuccess) {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class CustomCommentsList extends StatelessWidget {
   const CustomCommentsList({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -12,9 +12,7 @@ class CustomCommentsList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: ShowCommentsCubit.get(context).studentComments.length,
       itemBuilder: (context, index) => CustomCommentCard(
-        author: ShowCommentsCubit.get(context).studentComments[index].studentName,
-        comment: ShowCommentsCubit.get(context).studentComments[index].comment,
-        delete: () {},
+        comment: ShowCommentsCubit.get(context).studentComments[index],
       ),
       separatorBuilder: (context, index) => const SizedBox(
         height: 5,
