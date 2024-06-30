@@ -1,6 +1,6 @@
 import 'package:aast_restuarant/features/comments/presentation/delete_comment_cubit/delete_comment_cubit.dart';
 import 'package:aast_restuarant/features/comments/presentation/show_comments_cubit/show_comments_cubit.dart';
-import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/cubit/dean_announcement_cubit.dart';
+import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/dean_announcement_cubit_cubit/dean_announcement_cubit.dart';
 import 'package:aast_restuarant/features/feed_back/presentation/controller/feed_back_cubit/feed_back_cubit.dart';
 import 'package:aast_restuarant/features/login/presentation/controller/login_cubit/login_cubit.dart';
 import 'package:aast_restuarant/features/login/presentation/view/login_view.dart';
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           create: (context) => DeleteCommentCubit(),
         ),
         BlocProvider(
-          create: (context) => DeanAnnouncementCubit(),
+          create: (context) => DeanAnnouncementCubit()..getAnnouncement(),
         ),
       ],
       child: const MaterialApp(

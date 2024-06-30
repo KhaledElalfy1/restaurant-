@@ -1,5 +1,6 @@
-import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/cubit/dean_announcement_cubit.dart';
-import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/cubit/dean_announcement_state.dart';
+import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/dean_announcement_cubit_cubit/dean_announcement_cubit.dart';
+import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/dean_announcement_cubit_cubit/dean_announcement_state.dart';
+import 'package:aast_restuarant/features/dean_annoncement/presentation/view/widgets/announcement_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quickalert/quickalert.dart';
@@ -86,7 +87,8 @@ class DeanAnnouncement extends StatelessWidget {
                 builder: (context, state) {
                   return TextButton(
                     onPressed: () {
-                      DeanAnnouncementCubit.get(context).makeAnnouncement();
+                      DeanAnnouncementCubit.get(context)
+                          .makeAnnouncement(author: 'Dean');
                     },
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.black,
@@ -99,6 +101,25 @@ class DeanAnnouncement extends StatelessWidget {
                           )
                         : const Text('Submit'),
                   );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 300.0),
+              child: BlocBuilder<DeanAnnouncementCubit, DeanAnnouncementState>(
+                builder: (context, state) {
+                  if (state is GetDeanAnnouncementSuccess) {
+                    return const AnnouncementList();
+                  }
+                  if (state is GetDeanAnnouncementFailure) {
+                    return Center(
+                      child: Text(state.eMessage),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                 },
               ),
             ),

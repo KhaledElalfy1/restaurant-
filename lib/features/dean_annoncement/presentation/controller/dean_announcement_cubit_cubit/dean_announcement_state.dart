@@ -11,3 +11,11 @@ final class DeanAnnouncementFailure extends DeanAnnouncementState {
 
   DeanAnnouncementFailure({required this.eMessage});
 }
+
+final class GetDeanAnnouncementLoading extends DeanAnnouncementState {}
+final class GetDeanAnnouncementSuccess extends DeanAnnouncementState {}
+final class GetDeanAnnouncementFailure extends DeanAnnouncementState {
+  final String eMessage;
+
+  GetDeanAnnouncementFailure({required this.eMessage});
+}
