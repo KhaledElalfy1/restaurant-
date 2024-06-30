@@ -13,6 +13,12 @@ class Comments extends StatefulWidget {
 
 class _Comments extends State<Comments> {
   @override
+  void initState() {
+    ShowCommentsCubit.get(context).getStudentComments();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
