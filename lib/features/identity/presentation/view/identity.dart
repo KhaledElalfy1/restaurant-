@@ -1,4 +1,4 @@
-import 'package:aast_restuarant/features/home/presentation/view/home_view.dart';
+
 import 'package:flutter/material.dart';
 
 class Identity extends StatelessWidget {
@@ -139,7 +139,7 @@ class Identity extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 370, left: 15, bottom: 200),
+            padding: const EdgeInsets.only(top: 375, left: 15, bottom: 200),
             child: Image.asset(
               'images/QR code.png',
               width: 1000.0, // Set your desired width
@@ -148,7 +148,7 @@ class Identity extends StatelessWidget {
           ),
           Transform.translate(
             offset:
-                const Offset(20, 670), // Move the text 10 units to the right
+                const Offset(20, 700), // Move the text 10 units to the right
             child: Text(
               'Date: ${DateTime.now().toString().split('.')[0]}',
               style: const TextStyle(
@@ -215,10 +215,11 @@ class Identity extends StatelessWidget {
                   onPressed: () {
                     // Implement sign-in functionality
                     // After sign-in, navigate to the NextPage
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePAGE()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => const HomePAGE()),
+                    // );
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.indigo.shade900,

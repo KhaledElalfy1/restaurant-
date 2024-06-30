@@ -1,9 +1,14 @@
 import 'package:aast_restuarant/features/annoncement/presentation/view/annoncement.dart';
 import 'package:aast_restuarant/features/choose_meal/presentation/view/choose_meal_view.dart';
+import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/dean_announcement_cubit_cubit/dean_announcement_cubit.dart';
+import 'package:aast_restuarant/features/dean_annoncement/presentation/controller/dean_announcement_cubit_cubit/dean_announcement_state.dart';
+import 'package:aast_restuarant/features/dean_annoncement/presentation/view/widgets/announcement_list.dart';
 import 'package:aast_restuarant/features/feed_back/presentation/view/feed_back.dart';
 import 'package:aast_restuarant/features/identity/presentation/view/identity.dart';
 import 'package:aast_restuarant/features/schedual/presentation/view/schedual.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyCheckboxWidget extends StatefulWidget {
   const MyCheckboxWidget({super.key});
@@ -249,58 +254,23 @@ class HomePAGE2 extends StatelessWidget {
               ],
             ),
           ),
-          Card(
-            elevation: 4.0, // Optional: adds shadow under the card
-            margin: const EdgeInsets.only(
-                left: 10,
-                right: 14,
-                top: 360,
-                bottom: 300), // Margin around the card
-            color: Colors.blue[50], // Set the background color of the card
-            child: ListTile(
-              leading: Transform.translate(
-                offset: const Offset(-2,
-                    -80), // Move the avatar 5 units to the left and 135 units up
-                child: const CircleAvatar(
-                  backgroundImage: AssetImage(
-                      'images/Announcer.png'), // Replace with your image path
-                  backgroundColor: Colors
-                      .white, // Set the background color of the CircleAvatar
-                  radius: 30.0, // Radius of the avatar
-                ),
-              ),
-              title: Transform.translate(
-                offset:
-                    const Offset(-6, 10), // Move the title 20 units to the left
-                child: const Text(
-                  'Announcer name',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Transform.translate(
-                    offset: const Offset(
-                        -5, 3), // Move the text 10 units to the right
-                    child: Text(
-                        'Date: ${DateTime.now().toString()}'), // Replace with actual date and time
-                  ),
-                  const SizedBox(height: 4.0), // Space between text and date
-                  Transform.translate(
-                    offset: const Offset(
-                        -7, 40), // Move the text 10 units to the right
-                    child: const Text(
-                      'This is the announcement content.',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          Padding(
+            padding: const EdgeInsets.only(top: 300.0),
+            child: BlocBuilder<DeanAnnouncementCubit, DeanAnnouncementState>(
+              builder: (context, state) {
+                if (state is GetDeanAnnouncementSuccess) {
+                  return const AnnouncementList();
+                }
+                if (state is GetDeanAnnouncementFailure) {
+                  return Center(
+                    child: Text(state.eMessage),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
           ),
           Padding(
@@ -454,11 +424,12 @@ class HomePAGE2 extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 85, right: 4, top: 60, bottom: 2),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 85, right: 4, top: 60, bottom: 2),
             child: Text(
-              'Hi Fareed ',
-              style: TextStyle(
+              FirebaseAuth.instance.currentUser!.displayName!,
+              style: const TextStyle(
                 fontSize: 20.0, // Set the font size
                 fontWeight: FontWeight.bold, // Make the text bold
                 color: Colors.white, // Set the text color
@@ -467,11 +438,12 @@ class HomePAGE2 extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 90, right: 4, top: 85, bottom: 2),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 90, right: 4, top: 85, bottom: 2),
             child: Text(
-              '20102302 ',
-              style: TextStyle(
+              FirebaseAuth.instance.currentUser!.uid.substring(0, 10),
+              style: const TextStyle(
                 fontSize: 15.0, // Set the font size
                 fontWeight: FontWeight.bold, // Make the text bold
                 color: Colors.white, // Set the text color
