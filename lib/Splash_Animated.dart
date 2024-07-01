@@ -1,11 +1,10 @@
-
 import 'package:aast_restuarant/features/login/presentation/view/login_view.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-class Splash_Animated extends StatelessWidget {
-  const Splash_Animated(
+class SplashAnimated extends StatelessWidget {
+  const SplashAnimated(
       {super.key, required String title, required Widget home});
 
   @override
@@ -19,7 +18,7 @@ class Splash_Animated extends StatelessWidget {
           backgroundImage: AssetImage("images/splash.png"),
           backgroundColor: Color(0xFF1A237E),
         ),
-        nextScreen:const LoginView(),
+        nextScreen: const LoginView(),
 
 // we can use
         duration: 2000,
