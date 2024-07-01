@@ -1,6 +1,11 @@
 import 'package:aast_restuarant/features/deaning_area/presentation/view/deaning_area.dart';
+import 'package:aast_restuarant/features/scan/presentation/controller/cubit/qr_code_cubit.dart';
+import 'package:aast_restuarant/features/scan/presentation/controller/cubit/qr_code_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:quickalert/quickalert.dart';
 
 class Scan extends StatelessWidget {
   const Scan({super.key});
@@ -51,12 +56,13 @@ class Scan extends StatelessWidget {
               ),
             ),
           ),
-           Padding(
-            padding: const EdgeInsets.only(left: 85, right: 4, top: 60, bottom: 2),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 85, right: 4, top: 60, bottom: 2),
             child: Text(
               FirebaseAuth.instance.currentUser!.displayName!,
               style: const TextStyle(
-                fontSize: 20.0,
+                fontSize: 18.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 letterSpacing: 2.0,
@@ -131,6 +137,30 @@ class Scan extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 300.0),
+            child: Expanded(
+              flex: 5,
+              child: QRView(
+                key: QrCodeCubit.get(context).qrKey,
+                onQRViewCreated: QrCodeCubit.get(context).onQrViewCreated,
+              ),
+            ),
+          ),
+          BlocListener<QrCodeCubit, QrCodeState>(
+            listener: (context, state) {
+              if (state is QrCodeScanned &&
+                  QrCodeCubit.get(context).result != null) {
+                QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.info,
+                    text: QrCodeCubit.get(context).result!.code.toString());
+              } else {
+                debugPrint('Start Scanning .............');
+              }
+            },
+            child: const SizedBox(),
+          )
         ],
       ),
     );

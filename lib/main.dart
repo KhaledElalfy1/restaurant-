@@ -4,6 +4,7 @@ import 'package:aast_restuarant/features/dean_annoncement/presentation/controlle
 import 'package:aast_restuarant/features/feed_back/presentation/controller/feed_back_cubit/feed_back_cubit.dart';
 import 'package:aast_restuarant/features/login/presentation/controller/login_cubit/login_cubit.dart';
 import 'package:aast_restuarant/features/login/presentation/view/login_view.dart';
+import 'package:aast_restuarant/features/scan/presentation/controller/cubit/qr_code_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:aast_restuarant/Splash_Animated.dart';
@@ -39,12 +40,15 @@ class MyApp extends StatelessWidget {
           create: (context) => DeleteCommentCubit(),
         ),
         BlocProvider(
+          create: (context) => QrCodeCubit(),
+        ),
+        BlocProvider(
           create: (context) => DeanAnnouncementCubit()..getAnnouncement(),
         ),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Splash_Animated(
+        home: SplashAnimated(
           title: 'login',
           home: LoginView(),
         ),
