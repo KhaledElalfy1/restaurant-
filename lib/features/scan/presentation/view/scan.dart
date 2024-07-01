@@ -1,4 +1,5 @@
 import 'package:aast_restuarant/features/deaning_area/presentation/view/deaning_area.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Scan extends StatelessWidget {
@@ -50,11 +51,11 @@ class Scan extends StatelessWidget {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 85, right: 4, top: 60, bottom: 2),
+           Padding(
+            padding: const EdgeInsets.only(left: 85, right: 4, top: 60, bottom: 2),
             child: Text(
-              'Hi Ayman',
-              style: TextStyle(
+              FirebaseAuth.instance.currentUser!.displayName!,
+              style: const TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
